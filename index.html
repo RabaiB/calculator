@@ -8,8 +8,8 @@
 </head>
 <body>
     <div id="calculator-wrapper">
-        <div id="screen">
-            <span>80085</span>
+        <div id="screen-wrapper">
+            <span id="screen-output">80085</span>
         </div>
 
         <div id="button-container">
@@ -24,8 +24,8 @@
                 <div class="number-button">2</div>
                 <div class="number-button">3</div>
                 <div class="number-button">0</div>
-                <div class="number-button">.</div>
-                <div class="number-button">+/-</div>
+                <div class="number-button" id="del" >Del</div>
+                <div class="number-button" id="equal">=</div>
             </div>
 
             <div id="operator-wrapper">
@@ -36,6 +36,69 @@
             </div>
         </div>
 </body>
-    </div>
+
+<script>
+
+    // On-screen writing
+    let numbers = {
+        numberA: "",
+        numberB: "",
+        operator: "",
+        allowSecondNumber: false,
+    };
+    const numberButtons = document.querySelectorAll("#number-wrapper .number-button:not(#del):not(#equal)");
+
+    numberButtons.forEach(button => {
+
+        button.addEventListener("click", () => {
+            if (!numbers.allowSecondNumber) {
+                numbers.numberA += button.innerHTML;
+                
+                const screen = document.getElementById("screen-output");
+                screen.innerHTML = numbers.numberA;
+            } else {
+                numbers.numberB += button.innerHTML;
+
+                const screen = document.getElementById("screen-output");
+                screen.innerHTML = numbers.numberB;
+            }
+            
+        });
+    });
+
+
+    // Delete button
+    const delButton = document.getElementById("del");
+
+    delButton.addEventListener("click", () => {
+        const screen = document.getElementById("screen-output");
+        screen.innerHTML = "";
+
+        numbers.numberA = "";
+        numbers.numberB = "";
+        numbers.operator = "";
+        numbers.allowSecondNumber = false;
+    });
+
+
+    // Operator buttons
+    const operatorButtons = document.querySelectorAll("#operator-wrapper .operator-button");
+
+    operatorButtons.forEach(button => {
+
+        button.addEventListener("click", () => {   
+            const screen = document.getElementById("screen-output");
+
+            if (!numbers.allowSecondNumber) {
+                    screen.innerHTML = "";
+
+                    numbers.allowSecondNumber = true;                    
+                } else {
+                    screen.innerHTML = "ERROR";
+                }
+        });
+    });
+
+</script>
 
 </html>

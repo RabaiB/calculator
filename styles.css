@@ -6,7 +6,7 @@
     padding: 8px;
 }
 
-#screen {
+#screen-wrapper {
     display: flex;
     justify-content: start;
     align-items: center;
@@ -17,7 +17,7 @@
 
     margin-bottom: 5px;
 
-    padding-left: 8px;
+    padding-left: 16px;
 }
 
 #button-container {
@@ -52,4 +52,12 @@
     height: 100px;
 
     border: 1px solid black;
+
+    cursor: pointer;
+}
+
+.number-button:active {
+    border: 1px solid blue;
+    color: blue;
+
 }
