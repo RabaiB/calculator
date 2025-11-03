@@ -45,12 +45,21 @@
         numberB: "",
         operator: "",
         allowSecondNumber: false,
+        result: "",
     };
     const numberButtons = document.querySelectorAll("#number-wrapper .number-button:not(#del):not(#equal)");
 
     numberButtons.forEach(button => {
 
         button.addEventListener("click", () => {
+
+            // Ha eredményre próbál új gombot nyomni.
+            /*if (numbers.result != "") {
+            clearScreen();
+            clearMemory();
+            }*/
+
+            // Gépelés
             if (!numbers.allowSecondNumber) {
                 numbers.numberA += button.innerHTML;
                 
@@ -67,14 +76,17 @@
     });
 
 
+    function clearScreen() {
+        const screen = document.getElementById("screen-output");
+        screen.innerHTML = "";
+    }
+
+
     // Delete button
     const delButton = document.getElementById("del");
 
     delButton.addEventListener("click", () => {
-        const screen = document.getElementById("screen-output");
-        screen.innerHTML = "";
-
-
+        clearScreen();
         clearMemory();
     });
 
@@ -88,27 +100,33 @@
             const screen = document.getElementById("screen-output");
 
             if (!numbers.allowSecondNumber) {
-                    screen.innerHTML = "";
+                    clearScreen();
 
                     numbers.operator = button.innerHTML;
-
                     numbers.allowSecondNumber = true;
+
+                    console.log(`A: ${numbers.numberA} | ${numbers.numberB} | ${numbers.allowSecondNumber} | ${numbers.result}`);
                     
                 // If the user presses the operator button with 2 numbers already loaded
                 } else {
 
-                    const numA = parseFloat(numbers.numberA);
-                    const numB = parseFloat(numbers.numberB);
+                    if (numbers.numberB != "") {
+                        const numA = parseFloat(numbers.numberA);
+                        const numB = parseFloat(numbers.numberB);
 
-                    let result = operate(numA, numB, numbers.operator);
+                        let result = operate(numA, numB, numbers.operator);
 
-                    screen.innerHTML = result;
-                    clearMemory();
+                        screen.innerHTML = result;
+                        clearMemory();
 
-                    // Load results as first number
-                    numbers.numberA = result;
-                    numbers.operator = button.innerHTML;
-                    numbers.allowSecondNumber = true;
+                        // Load results as numA
+                        numbers.numberA = result;
+                        numbers.operator = button.innerHTML;
+                        numbers.allowSecondNumber = true;
+                        numbers.result = result;
+
+                        console.log(`B: ${numbers.numberA} | ${numbers.numberB} | ${numbers.allowSecondNumber} | ${numbers.result}`);
+                    }
                 }
         });
     });
@@ -119,15 +137,19 @@
     equalButton.addEventListener("click", () => {
         const screen = document.getElementById("screen-output");
 
-        const numA = parseFloat(numbers.numberA);
-        const numB = parseFloat(numbers.numberB);
+        if (numbers.allowSecondNumber) {
+            const numA = parseFloat(numbers.numberA);
+            const numB = parseFloat(numbers.numberB);
 
-        let result = operate(numA, numB, numbers.operator);
+            let result = operate(numA, numB, numbers.operator);
 
-        screen.innerHTML = result;
-        clearMemory();
-        numbers.numberA = result;
+            screen.innerHTML = result;
+            clearMemory();
+            numbers.numberA = result;
+            numbers.result = result;
 
+            console.log(`C: ${numbers.numberA} | ${numbers.numberB} | ${numbers.allowSecondNumber} | ${numbers.result}`);
+        }
     });
 
 </script>

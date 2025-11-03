@@ -23,6 +23,7 @@ function clearMemory() {
     numbers.numberB = "";
     numbers.operator = "";
     numbers.allowSecondNumber = false;
+    numbers.result = "";
 }
 
 
