@@ -36,7 +36,7 @@
             </div>
         </div>
 </body>
-
+<script  src="calcFunctions.js"></script>
 <script>
 
     // On-screen writing
@@ -74,10 +74,8 @@
         const screen = document.getElementById("screen-output");
         screen.innerHTML = "";
 
-        numbers.numberA = "";
-        numbers.numberB = "";
-        numbers.operator = "";
-        numbers.allowSecondNumber = false;
+
+        clearMemory();
     });
 
 
@@ -92,11 +90,44 @@
             if (!numbers.allowSecondNumber) {
                     screen.innerHTML = "";
 
-                    numbers.allowSecondNumber = true;                    
+                    numbers.operator = button.innerHTML;
+
+                    numbers.allowSecondNumber = true;
+                    
+                // If the user presses the operator button with 2 numbers already loaded
                 } else {
-                    screen.innerHTML = "ERROR";
+
+                    const numA = parseFloat(numbers.numberA);
+                    const numB = parseFloat(numbers.numberB);
+
+                    let result = operate(numA, numB, numbers.operator);
+
+                    screen.innerHTML = result;
+                    clearMemory();
+
+                    // Load results as first number
+                    numbers.numberA = result;
+                    numbers.operator = button.innerHTML;
+                    numbers.allowSecondNumber = true;
                 }
         });
+    });
+
+    // Equal button
+    const equalButton = document.getElementById("equal");
+
+    equalButton.addEventListener("click", () => {
+        const screen = document.getElementById("screen-output");
+
+        const numA = parseFloat(numbers.numberA);
+        const numB = parseFloat(numbers.numberB);
+
+        let result = operate(numA, numB, numbers.operator);
+
+        screen.innerHTML = result;
+        clearMemory();
+        numbers.numberA = result;
+
     });
 
 </script>
